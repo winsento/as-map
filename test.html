@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html style="height: 100%;">
+<head>
+	
+	<title>Quick Start - Leaflet</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    
+	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+	<script src="cities.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="http://marslan390.github.io/BeautifyMarker/leaflet-beautify-marker-icon.css">
+	<script type="text/javascript" src="http://marslan390.github.io/BeautifyMarker/leaflet-beautify-marker-icon.js"></script>
+	<script type="text/javascript" src="http://marslan390.github.io/BeautifyMarker/leaflet-beautify-marker.js"></script>
+
+	
+</head>
+<body style="height: 100%;">
+
+
+
+<div id="mapid" style="width: 100%; height: 100%;"></div>
+<script>
+
+	var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+
+	L.tileLayer('https://api.mapbox.com/styles/v1/lighter/ciykckr50003f2ro2my9s08qe/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibGlnaHRlciIsImEiOiJjaWp5YnJzcDAxcmtrdjVtNWRmOW5sNjRjIn0.w1YU4ljjrrCebhUWSaniWQ', {
+		maxZoom: 18,
+		id: 'mapbox.streets'
+	}).addTo(mymap);
+
+	L.geoJSON(citiesGeojson, {
+	    pointToLayer: function(geoJsonPoint, latlng) {
+	    	var coef = Math.log2(geoJsonPoint.properties.population/200);
+	    	coef = coef < 0 ? 1 : coef
+	    	var iconSize = Math.floor(10*coef);
+	    	var options = {
+			    icon: 'cirle',
+			    iconSize: [iconSize,iconSize],
+			    iconStyle: 'opacity: 0.5',
+			    borderColor: 'white',
+			    backgroundColor: '#01050B',
+			};
+			var tooltipText = geoJsonPoint.properties.name + "<br/>" + geoJsonPoint.properties.population;
+			var tooltipOptions = {
+				sticky: true,
+				opacity: 0.8
+			}
+			return L.marker(latlng, {
+			    icon: L.BeautifyIcon.icon(options),
+			}).bindTooltip(tooltipText, tooltipOptions).openTooltip();
+		},
+	}).addTo(mymap);
+
+</script>
+
+
+
+</body>
+</html>
