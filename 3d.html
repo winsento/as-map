@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <script src="http://www.webglearth.com/v2/api.js"></script>
+    <script>
+      function initialize() {
+        var earth = new WE.map('earth_div');
+        WE.tileLayer('https://api.mapbox.com/styles/v1/lighter/ciykckr50003f2ro2my9s08qe/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibGlnaHRlciIsImEiOiJjaWp5YnJzcDAxcmtrdjVtNWRmOW5sNjRjIn0.w1YU4ljjrrCebhUWSaniWQ').addTo(earth);
+      }
+    </script>
+  </head>
+  <body onload="initialize()" style="height: 100%;">
+    <div id="earth_div" style="width:100%;height:100%;"></div>
+  </body>
+</html>
